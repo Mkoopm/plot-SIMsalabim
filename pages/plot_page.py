@@ -6,8 +6,9 @@ import numpy as np
 import seaborn as sns
 
 
-data_var = pd.read_csv('SimSS/Var.dat', delim_whitespace=True)
-data_jv = pd.read_csv('SimSS/JV.dat', delim_whitespace=True)
+SimSS_path = 'SIMsalabim/SimSS/'
+data_var = pd.read_csv(SimSS_path+'Var.dat', delim_whitespace=True)
+data_jv = pd.read_csv(SimSS_path+'JV.dat', delim_whitespace=True)
 
 with st.sidebar:
     options = st.multiselect(
