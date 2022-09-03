@@ -18,13 +18,31 @@ with st.sidebar:
     scale_y = ['linear','log']
     choice_y_scale = st.selectbox('y-scale', scale_y)
 
+    style = ['line','scatter']
+    choice_style = st.selectbox('plot style', style)
+
+    voltages = list(set(data_var['Vext']))
+    voltages.sort()
+    format_func = lambda volt : f'{volt:.2}'
+    choice_voltage = st.select_slider('Voltage to plot variables at', voltages, format_func=format_func)
+
 fig1, ax1 = plt.subplots()
 fig2, ax2 = plt.subplots()
 
 ax2.set_yscale(choice_y_scale)
-sns.scatterplot(data=data_jv, x='Vext', y='Jext', ax=ax1)
-for y_var in options:
-    sns.scatterplot(data=data_var, x='x', y=y_var, ax=ax2, label=y_var)
+plot_funcs = {'scatter':sns.scatterplot, 'line':sns.lineplot}
+plot_funcs[choice_style](data=data_jv, x='Vext', y='Jext', label='Cell JV', ax=ax1)
+
+
+if len(options) == 1:
+    plot_funcs[choice_style](data=data_var, x='x', y=options[0], hue='Vext', ax=ax2)
+elif len(options) > 1:
+    data_var = data_var[data_var['Vext'] == choice_voltage]
+    for y_var in options:
+        plot_funcs[choice_style](data=data_var, x='x', y=y_var, ax=ax2, label=y_var)
+
+    ax1.axvline(x=choice_voltage, label='2nd plot V', ls='--', color='grey')
+    ax1.legend()
 
 
 st.pyplot(fig1, format='png')
