@@ -1,5 +1,7 @@
 /plot-SIMsalabim-env
 /SIMsalabim*
 
+.vscode
+
 # SIMsalabim data files
 *.dat
