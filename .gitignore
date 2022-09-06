@@ -2,6 +2,8 @@
 /SIMsalabim*
 
 .vscode
+# don't know what this is, likely a steamlit file
+.DS_Store
 
 # SIMsalabim data files
 *.dat
